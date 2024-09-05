@@ -1,0 +1,65 @@
+﻿@page "/ancestry"
+@rendermode InteractiveServer
+@inject ILogger<_2_Ancestry> Logger
+
+<PageTitle>Ancestry</PageTitle>
+<h3>Ancestry</h3>
+Fantastic peoples inhabit the worlds of <i>Draw Steel</i>.
+Among them are devils, dwarves, elves, time raiders—even humans with their ability to sense the supernatural.
+<p />
+Your hero is one of these folks!
+The fantastic ancestry you choose bestows benefits that come from your anatomy and physiology.
+This choice doesn’t grant you cultural benefits, like crafting or lore skills.
+While many game settings have cultures made of mostly one ancestry, other cultures and worlds have a cosmopolitan mix of peoples.
+Ancestry describes how you were born.
+Culture describes how you grew up.
+If you want to be a wode elf who was raised in forest among other wode elves, you can do that!
+If you want to play a wode elf who was raised in a underground city of dwarves, humans, and orcs, you can do that too!
+<p />
+<div>
+    @if (ancestries == null)
+    {
+        <i>Loading...</i>
+    }
+    else
+    {
+        @foreach (string c in ancestries)
+        {
+            <button class="btn btn-primary btn-choice-main" @onclick="args => SetDescription(c, args)">@c</button>
+        }
+    }
+    <p />
+    @Description
+</div>
+
+@code {
+    private string[]? ancestries;
+    private string? Description { get; set; } = "asdf";
+
+    protected override async Task OnInitializedAsync()
+    {
+        ancestries = new string[]
+        {
+            "Devil", "Dragon Knight", "Dwarf", "Elf, Wode", "Elf, High", "Hakaan", "Human", "Memonek", "Orc", "Polder", "Revenant", "Time Raider"
+        };
+    }
+
+    private void SetDescription()
+    {
+        Logger.LogWarning("here");
+        Description = "foo bar";
+    }
+      
+    private void SetDescription(string c, MouseEventArgs args)
+    {
+        Logger.LogInformation($"c = {c}");
+        if (c == "Devil")
+        {
+            Description = $"\"Go to hell!\"  \"You know, I have a rather interesting story about that …\"";
+        }
+        else
+        {
+            Description = null;
+        }
+    }
+}
